@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deployment-{{ item }}
+  labels:
+    app: redis-{{ item }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-{{ item }}
+  template:
+    metadata:
+      labels:
+        app: redis-{{ item }}
+    spec:
+      containers:
+      - name: redis-{{ item }}
+        image: registry.redhat.io/rhel9/redis-7
+        ports:
+        - containerPort: 6379
+        volumeMounts:
+        - mountPath: /var/lib/redis/data
+          name: redis-storage
+        command: ["redis-server"]
+      volumes:
+      - name: redis-storage
+        persistentVolumeClaim:
+          claimName: redis-pvc-{{ item }}

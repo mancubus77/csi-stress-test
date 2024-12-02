@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-pvc-{{ item }}
+spec:
+  volumeMode: Filesystem
+
+{% if storage_class is defined %}  
+  storageClassName: {{ storage_class }}
+{% else %}
+{% endif %}
+
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  

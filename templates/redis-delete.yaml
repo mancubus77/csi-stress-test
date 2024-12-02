@@ -1,0 +1,3 @@
+{% include 'templates/deployment.yaml' %}
+
+{% include 'templates/pvc.yaml' %}
